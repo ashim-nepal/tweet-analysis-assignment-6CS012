@@ -9,9 +9,9 @@ from nltk.stem import WordNetLemmatizer
 
 
 # Load models and tokenizer
-model_rnn = load_model('model1.h5')
-model_lstm = load_model('model2.h5')
-model_w2v = load_model('model3.h5')
+model_rnn = load_model('TweetAnalysis-6CS012/model1.h5')
+model_lstm = load_model('TweetAnalysis-6CS012/model2.h5')
+model_w2v = load_model('TweetAnalysis-6CS012/model3.h5')
 
 with open('tokenizer.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
