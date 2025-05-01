@@ -16,8 +16,8 @@ model_w2v = load_model('TweetAnalysis-6CS012/model3.h5')
 with open('TweetAnalysis-6CS012/tokenizer.pickle', 'rb') as handle:
     tokenizer = pickle.load(handle)
 
-# Same maxlen as used during training
-max_len = 100
+
+max_len = 13
 
 # Download necessary nltk resources
 nltk.download('stopwords')
