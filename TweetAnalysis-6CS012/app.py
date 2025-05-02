@@ -42,33 +42,41 @@ def predict_sentiment(text, model):
     seq = tokenizer.texts_to_sequences([cleaned])
     pad = pad_sequences(seq, maxlen=max_len, padding='post')
     pred = model.predict(pad)[0][0]
-    return "Racist/Sexist" if pred > 0.5 else "Not Racist Sexist"
-
+    prediction = "Racist/Sexist" if pred > 0.5 else "Not Racist/Sexist"
+    confidence = f"{pred * 100:.2f}%"
+    return prediction, confidence
+    
 # Streamlit UI
-st.set_page_config(page_title="Tweet Sentiment Analyzer", page_icon="💬", layout="centered")
+st.set_page_config(page_title="Tweet Analyzer", page_icon="💬", layout="centered")
 
 st.markdown("""
-    <h1 style='text-align: center; color: #333;'>💬 Real-Time Tweet Sentiment Analyzer</h1>
-    <p style='text-align: center; font-size: 18px;'>Enter a tweet below and click one of the model buttons to get the sentiment analysis result in real-time.</p>
+    <h1 style='text-align: center; color: #333;'>💬 Real-Time Tweet Analyzer</h1>
+    <p style='text-align: center; font-size: 18px;'>Enter a tweet below and click one of the model buttons to get the tweet analysis result in real-time.</p>
+    <br><br>
+    <p style='text-align: center; font-size: 18px;'><strong>Ashim Nepal - L6CG9 | 6CS012 Realtime Tweet Analysis</strong></p>
 """, unsafe_allow_html=True)
 
 text_input = st.text_area("Enter your tweet here:", height=150, placeholder="e.g. I've completed Assignment of AI'!")
 
+
+
 col1, col2, col3 = st.columns(3)
-result = ""
+prediction = ""
+confidence = ""
 
 if col1.button("🔁 Predict with RNN"):
-    result = predict_sentiment(text_input, model_rnn)
+    prediction, confidence = predict_sentiment(text_input, model_rnn)
 
 if col2.button("🔁 Predict with LSTM"):
-    result = predict_sentiment(text_input, model_lstm)
+    prediction, confidence = predict_sentiment(text_input, model_lstm)
 
 if col3.button("🔁 Predict with Word2Vec-LSTM"):
-    result = predict_sentiment(text_input, model_w2v)
+    prediction, confidence = predict_sentiment(text_input, model_w2v)
 
-if result:
+if prediction:
     st.markdown(f"""
         <div style='margin-top: 20px; padding: 15px; background-color: #f0f2f6; border-radius: 10px; text-align: center; font-size: 22px; color: #333;'>
-            <strong>Prediction:</strong> {result}
+            <strong>Prediction:</strong> {prediction}<br>
+            <strong>Chance being Racist/Sexit:</strong> {confidence}
         </div>
     """, unsafe_allow_html=True)
